@@ -20,6 +20,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/documents")
+@CrossOrigin(origins = {
+        "http://localhost:*",
+        "http://127.0.0.1:*"
+}, allowCredentials = "true")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -84,6 +88,7 @@ public class DocumentController {
     @GetMapping("/my")
     public ResponseEntity<List<Document>> getMyDocuments(@AuthenticationPrincipal Jwt jwt) {
         String ownerId = jwt.getClaimAsString("preferred_username");
+        System.out.println(ownerId);
         return ResponseEntity.ok(documentService.getUserDocuments(ownerId));
     }
 
